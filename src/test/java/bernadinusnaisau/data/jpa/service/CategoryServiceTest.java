@@ -26,4 +26,18 @@ public class CategoryServiceTest {
             categoryService.test();
         });
     }
+
+    @Test
+    void Programmatic() {
+        assertThrows(RuntimeException.class, () -> {
+            categoryService.createCategory();
+        });
+    }
+
+    @Test
+    void ManualTransaction() {
+        assertThrows(RuntimeException.class, () -> {
+            categoryService.manualTransaction();
+        });
+    }
 }
