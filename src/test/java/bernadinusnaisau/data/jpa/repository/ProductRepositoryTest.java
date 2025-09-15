@@ -5,6 +5,7 @@ import bernadinusnaisau.data.jpa.entity.Product;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -52,11 +53,12 @@ public class ProductRepositoryTest {
 
     @Test
     void selectDataByProductId() {
-        List<Product> products = productRepository.findByCategory_Id(1L);
+        Sort sort = Sort.by(Sort.Order.desc("id"));
+        List<Product> products = productRepository.findByCategory_Id(1L, sort);
         assertNotNull(products);
 
         assertEquals(2, products.size());
-        assertEquals(1L, products.get(0).getId());
-        assertEquals(2L, products.get(1).getId());
+        assertEquals(2L, products.get(0).getId());
+        assertEquals(1L, products.get(1).getId());
     }
 }
