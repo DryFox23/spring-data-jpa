@@ -1,6 +1,7 @@
 package bernadinusnaisau.data.jpa.repository;
 
 import bernadinusnaisau.data.jpa.entity.Product;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,5 +12,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findAllByCategory_Name(String name);
 
-    List<Product> findByCategory_Id(Long id);
+    List<Product> findByCategory_Id(Long id, Sort sort);
 }
