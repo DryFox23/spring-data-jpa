@@ -12,8 +12,7 @@ import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 public class ProductRepositoryTest {
@@ -107,5 +106,14 @@ public class ProductRepositoryTest {
         assertEquals(2, count);
         assertEquals("Xiaomi Redmi Note 12", productRepository.findAllByCategory_Name("GADGET PRICEY").get(0).getName());
         assertEquals("Samsung Galaxy A14", productRepository.findAllByCategory_Name("GADGET PRICEY").get(1).getName());
+    }
+
+    @Test
+    void isexsitsDataProduct() {
+        boolean exists = productRepository.existsById(1L);
+        assertTrue(exists);
+
+        exists = productRepository.existsById(3L);
+        assertFalse(exists);
     }
 }
