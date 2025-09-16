@@ -100,4 +100,12 @@ public class ProductRepositoryTest {
         assertEquals(2, products.getTotalPages());
         assertEquals("Samsung Galaxy A14", products.getContent().get(0).getName());
     }
+
+    @Test
+    void countDataProduct() {
+        Long count = productRepository.countByCategory_Name("GADGET PRICEY");
+        assertEquals(2, count);
+        assertEquals("Xiaomi Redmi Note 12", productRepository.findAllByCategory_Name("GADGET PRICEY").get(0).getName());
+        assertEquals("Samsung Galaxy A14", productRepository.findAllByCategory_Name("GADGET PRICEY").get(1).getName());
+    }
 }
