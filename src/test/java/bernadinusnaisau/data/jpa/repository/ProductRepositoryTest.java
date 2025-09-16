@@ -121,7 +121,7 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    void deleteDataProduct() {
+    void deleteDataProductProgrammatic() {
         transactionOperations.executeWithoutResult(transactionStatus -> {
             Category category = categoryRepository.findById(1L).orElse(null);
             assertNotNull(category);
@@ -139,5 +139,22 @@ public class ProductRepositoryTest {
                 assertEquals(1, deleteData);
             }
         });
+    }
+
+    @Test
+    void deleteDataProductByAnnotation() {
+        Category category = categoryRepository.findById(1L).orElse(null);
+        assertNotNull(category);
+
+        {
+            Product product = new Product();
+            product.setName("ROG PHONE 6");
+            product.setPrice(15000000L);
+            product.setCategory(category);
+            productRepository.save(product);
+        }
+
+        int deleteData = productRepository.deleteProductByName("ROG PHONE 6");
+        assertEquals(1, deleteData);
     }
 }
