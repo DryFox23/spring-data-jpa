@@ -157,4 +157,18 @@ public class ProductRepositoryTest {
         int deleteData = productRepository.deleteProductByName("ROG PHONE 6");
         assertEquals(1, deleteData);
     }
+
+    @Test
+    void selectDataUsingNamedQuery() {
+        List<Product> products = productRepository.searchProductByName("Xiaomi Redmi Note 12");
+        assertNotNull(products);
+        assertEquals("Xiaomi Redmi Note 12", products.get(0).getName());
+    }
+
+    @Test
+    void selectDataUsingNamedQueryById() {
+        Product productById = productRepository.findProductById(1L);
+        assertNotNull(productById);
+        assertEquals("Xiaomi Redmi Note 12", productById.getName());
+    }
 }
