@@ -160,7 +160,8 @@ public class ProductRepositoryTest {
 
     @Test
     void selectDataUsingNamedQuery() {
-        List<Product> products = productRepository.searchProductByName("Xiaomi Redmi Note 12");
+        Pageable pageable = PageRequest.of(0, 1);
+        List<Product> products = productRepository.searchProductByName("Xiaomi Redmi Note 12", pageable);
         assertNotNull(products);
         assertEquals("Xiaomi Redmi Note 12", products.get(0).getName());
     }
