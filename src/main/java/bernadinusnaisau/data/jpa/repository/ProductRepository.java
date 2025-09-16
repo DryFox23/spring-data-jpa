@@ -26,6 +26,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Transactional
     int deleteProductByName(String name);
 
-    List<Product>searchProductByName(@Param("name") String name);
+    List<Product>searchProductByName(@Param("name") String name, Pageable pageable);
     Product findProductById(@Param("id") Long id);
 }
