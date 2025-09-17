@@ -172,4 +172,32 @@ public class ProductRepositoryTest {
         assertNotNull(productById);
         assertEquals("Xiaomi Redmi Note 12", productById.getName());
     }
+
+    @Test
+    void selectDataUsingQueryAnnotation() {
+        List<Product> products = productRepository.searchProductByName("%Xiaomi%");
+        assertEquals(1, products.size());
+
+        products = productRepository.searchProductByName("%GADGET%");
+        assertEquals(2, products.size());
+    }
+
+    @Test
+    void selectDataUsingQueryAnnotationWithPageable() {
+        Pageable pageable = PageRequest.of(0, 1, Sort.by(Sort.Order.desc("id")));
+        List<Product> products = productRepository.searchProductByName2("%Xiaomi%", pageable);
+        assertEquals(1, products.size());
+
+        pageable = PageRequest.of(0, 1, Sort.by(Sort.Order.asc("id")));
+        products = productRepository.searchProductByName2("%GADGET%", pageable);
+        assertEquals(1, products.size());
+    }
+
+    @Test
+    void SelectAndCount() {
+        Pageable pageable = PageRequest.of(0, 1 , Sort.by(Sort.Order.asc("id")));
+        Page<Product> products = productRepository.searchAndCountProductByName("%Xiaomi%", pageable);
+        assertEquals(1, products.getTotalElements());
+        assertEquals(1, products.getTotalPages());
+    }
 }
