@@ -4,6 +4,7 @@ import bernadinusnaisau.data.jpa.entity.Category;
 import bernadinusnaisau.data.jpa.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -52,4 +53,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     int updateProductByPrice(@Param("id") Long id);
 
     Stream<Product> streamAllByCategory(Category category);
+    Slice<Product> findAllByCategory(Category category, Pageable pageable);
 }
