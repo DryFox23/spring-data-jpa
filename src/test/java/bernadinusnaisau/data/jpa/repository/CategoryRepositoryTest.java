@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 
 import java.util.List;
 
@@ -52,4 +55,17 @@ public class CategoryRepositoryTest {
         assertEquals("GADGET PRICEY", categoryById.getName());
 
     }
+
+    @Test
+    void testFindAllCategoriesWithSlice() {
+        Pageable pageable = PageRequest.of(3, 3);
+
+        Slice<Category> categorySlice = categoryRepository.findAll(pageable);
+        Assertions.assertNotNull(categorySlice);
+
+        while (categorySlice.hasNext()) {
+            categorySlice = categoryRepository.findAll(categorySlice.nextPageable());
+        }
+    }
+
 }

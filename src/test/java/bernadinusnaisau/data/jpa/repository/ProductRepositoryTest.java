@@ -2,13 +2,11 @@ package bernadinusnaisau.data.jpa.repository;
 
 import bernadinusnaisau.data.jpa.entity.Category;
 import bernadinusnaisau.data.jpa.entity.Product;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.transaction.support.TransactionOperations;
 
 import java.util.List;
@@ -226,5 +224,21 @@ public class ProductRepositoryTest {
                 System.out.println(product.getId() + " - " + product.getName());
             });
         });
+    }
+
+    @Test
+    void findataUsingSlice() {
+        Pageable pageable = PageRequest.of(0, 1);
+
+        Category category = categoryRepository.findById(1L).orElse(null);
+        assertNotNull(category);
+
+//        Menampilkan semua data
+        Slice<Product> products = productRepository.findAllByCategory(category, pageable);
+
+//        Menampilkan data per page
+        while(products.hasNext()) {
+            products = productRepository.findAllByCategory(category, products.nextPageable());
+        }
     }
 }
