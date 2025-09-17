@@ -200,4 +200,18 @@ public class ProductRepositoryTest {
         assertEquals(1, products.getTotalElements());
         assertEquals(1, products.getTotalPages());
     }
+
+    @Test
+    void updateAndDeleteData() {
+        transactionOperations.executeWithoutResult(transactionStatus -> {
+            int totalData = productRepository.deleteProductByName2("Wrong Name");
+            assertEquals(0, totalData);
+
+            totalData = productRepository.updateProductByPrice(1L);
+            assertEquals(1, totalData);
+
+            Product product = productRepository.findById(1L).orElse(null);
+            assertEquals(0, product.getPrice());
+        });
+    }
 }
