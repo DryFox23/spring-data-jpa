@@ -2,6 +2,7 @@ package bernadinusnaisau.data.jpa.repository;
 
 import bernadinusnaisau.data.jpa.entity.Category;
 import bernadinusnaisau.data.jpa.entity.Product;
+import bernadinusnaisau.data.jpa.model.SimpleProduct;
 import jakarta.persistence.LockModeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -57,4 +58,6 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     Optional<Product> findFirstByIdEquals(Long id);
+
+    List<SimpleProduct> findAllByNameLike(String name);
 }
