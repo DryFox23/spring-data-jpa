@@ -241,4 +241,35 @@ public class ProductRepositoryTest {
             products = productRepository.findAllByCategory(category, products.nextPageable());
         }
     }
+
+    @Test
+    void setPriceLock1()  {
+        transactionOperations.executeWithoutResult(transactionStatus -> {
+           try {
+               Product product = productRepository.findFirstByIdEquals(1L).orElse(null);
+               assertNotNull(product);
+
+               product.setPrice(3_500_000L);
+               Thread.sleep(10_000L);
+               productRepository.save(product);
+           }catch (Exception e) {
+               throw new RuntimeException(e);
+           }
+        });
+    }
+
+    @Test
+    void setPriceLock2() {
+        transactionOperations.executeWithoutResult(transactionStatus -> {
+            try {
+                Product product = productRepository.findFirstByIdEquals(1L).orElse(null);
+                assertNotNull(product);
+
+                product.setPrice(4_000_000L);
+                productRepository.save(product);
+            }catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+    }
 }
