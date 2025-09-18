@@ -5,9 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.*;
 
 import java.util.List;
 
@@ -77,5 +75,42 @@ public class CategoryRepositoryTest {
         assertNotNull(category.getId());
         assertNotNull(category.getCreatedAt());
         assertNotNull(category.getLastModifiedDate());
+    }
+
+    @Test
+    void findDataUsingExample1() {
+        Category category = new Category();
+        category.setName("GADGET MID RANGE");
+
+        Example<Category> findCategory =Example.of(category);
+        List<Category> categories = categoryRepository.findAll(findCategory);
+
+        assertEquals(1, categories.size());
+    }
+
+    @Test
+    void findDataUsingExample2() {
+        Category category = new Category();
+        category.setName("GADGET MID RANGE");
+        category.setId(32L);
+
+        Example<Category> findCategory =Example.of(category);
+        List<Category> categories = categoryRepository.findAll(findCategory);
+
+        assertEquals(1, categories.size());
+    }
+
+    @Test
+    void findDataUsingExampleMatcher() {
+        Category category = new Category();
+        category.setName("GADGET pricey");
+        category.setId(1L);
+
+        ExampleMatcher matcher = ExampleMatcher.matching().withIncludeNullValues().withIgnoreCase();
+
+        Example<Category> findCategory = Example.of(category, matcher);
+        List<Category> categories = categoryRepository.findAll(findCategory);
+
+        assertEquals(1, categories.size());
     }
 }
