@@ -59,5 +59,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
     Optional<Product> findFirstByIdEquals(Long id);
 
-    List<SimpleProduct> findAllByNameLike(String name);
+//    List<SimpleProduct> findAllByNameLike(String name);
+
+    <T> List<T> findAllByNameLike(String name, Class<T> tClass);
 }
