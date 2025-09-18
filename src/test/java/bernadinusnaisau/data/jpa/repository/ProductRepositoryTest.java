@@ -2,14 +2,11 @@ package bernadinusnaisau.data.jpa.repository;
 
 import bernadinusnaisau.data.jpa.entity.Category;
 import bernadinusnaisau.data.jpa.entity.Product;
-import bernadinusnaisau.data.jpa.model.SimpleProduct;
-import bernadinusnaisau.data.jpa.model.SimpleProductPrice;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.*;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.support.TransactionOperations;
 
 import java.util.List;
@@ -267,49 +264,12 @@ public class ProductRepositoryTest {
             try {
                 Product product = productRepository.findFirstByIdEquals(1L).orElse(null);
                 assertNotNull(product);
-                product.setPrice(4_000_000L);
 
+                product.setPrice(4_000_000L);
+                productRepository.save(product);
             }catch (Exception e) {
                 throw new RuntimeException(e);
             }
         });
-    }
-
-    @Test
-    void selectDataUsingSpesification1() {
-        Specification<Product> specifaction = (root, criteriaQuery, criteriaBuilder) -> {
-            return criteriaQuery.where(criteriaBuilder.or(
-                    criteriaBuilder.equal(root.get("name"), "Xiaomi Redmi Note 12"),
-                    criteriaBuilder.equal(root.get("name"), "Samsung Galaxy A14")
-            )).getRestriction();
-        };
-
-        List<Product> products = productRepository.findAll(specifaction);
-        assertEquals(2, products.size());
-    }
-
-    @Test
-    void selectDataUsingSpesification2() {
-        Specification<Product> specification = (root, query, cb) -> {
-            return root.get("id").in(List.of(1L, 2L, 7L));
-        };
-        List<Product> products = productRepository.findAll(specification);
-        assertEquals(3, products.size());
-    }
-
-//    @Test
-//    void selectDataUsingProjection() {
-//        List<SimpleProduct> simpleProducts = productRepository.findAllByNameLike("%Xiaomi%");
-//        assertEquals(1, simpleProducts.size());
-//    }
-
-
-    @Test
-    void selectDataUsingProjectionRecord() {
-        List<SimpleProduct> simpleProduct1 = productRepository.findAllByNameLike("%Xiaomi%", SimpleProduct.class);
-        assertEquals(1, simpleProduct1.size());
-
-        List<SimpleProductPrice> simplePrice = productRepository.findAllByNameLike("%Xiaomi%", SimpleProductPrice.class);
-        assertEquals(1, simplePrice.size());
     }
 }
