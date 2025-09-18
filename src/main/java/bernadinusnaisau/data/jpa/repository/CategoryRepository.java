@@ -20,4 +20,5 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     Slice<Category> findAllByName(String name, Pageable pageable);
 
+    <T> List<T> findByNameLike(String name, Class<T> tClass);
 }

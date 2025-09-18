@@ -1,6 +1,8 @@
 package bernadinusnaisau.data.jpa.repository;
 
 import bernadinusnaisau.data.jpa.entity.Category;
+import bernadinusnaisau.data.jpa.model.CategoryGetDate;
+import bernadinusnaisau.data.jpa.model.CategoryGetName;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -112,5 +114,16 @@ public class CategoryRepositoryTest {
         List<Category> categories = categoryRepository.findAll(findCategory);
 
         assertEquals(1, categories.size());
+    }
+
+    @Test
+    void selectUsingDynamicProjector() {
+        List<CategoryGetName> categoryName = categoryRepository.findByNameLike("%GADGET%", CategoryGetName.class);
+        assertEquals(2, categoryName.size());
+
+        List<CategoryGetDate> categoryDate = categoryRepository.findByNameLike("%GADGET%", CategoryGetDate.class);
+        assertEquals(2, categoryDate.size());
+
+
     }
 }
