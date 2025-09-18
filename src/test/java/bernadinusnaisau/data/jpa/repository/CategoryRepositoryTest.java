@@ -68,4 +68,14 @@ public class CategoryRepositoryTest {
         }
     }
 
+    @Test
+    void auditing() {
+        Category category = new Category();
+        category.setName("GADGET MID RANGE");
+        categoryRepository.save(category);
+
+        assertNotNull(category.getId());
+        assertNotNull(category.getCreatedAt());
+        assertNotNull(category.getLastModifiedDate());
+    }
 }
