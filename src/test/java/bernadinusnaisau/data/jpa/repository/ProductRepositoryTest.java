@@ -2,6 +2,7 @@ package bernadinusnaisau.data.jpa.repository;
 
 import bernadinusnaisau.data.jpa.entity.Category;
 import bernadinusnaisau.data.jpa.entity.Product;
+import bernadinusnaisau.data.jpa.model.SimpleProduct;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -293,5 +294,11 @@ public class ProductRepositoryTest {
         };
         List<Product> products = productRepository.findAll(specification);
         assertEquals(3, products.size());
+    }
+
+    @Test
+    void selectDataUsingProjection() {
+        List<SimpleProduct> simpleProducts = productRepository.findAllByNameLike("%Xiaomi%");
+        assertEquals(1, simpleProducts.size());
     }
 }
